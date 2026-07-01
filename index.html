@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HORIZON — Observatoire de prospective stratégique</title>
+<meta name="description" content="Observatoire de prospective stratégique : épistémologie, méthodes, mégatendances et scénarios pour explorer les futurs plausibles." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0E1320;
+    --ink-2:#141B2B;
+    --ink-3:#1C2538;
+    --bone:#ECE7DA;
+    --muted:#8C95AB;
+    --muted-2:#646E84;
+    --ember:#E3A45A;
+    --ember-deep:#C77F3C;
+    --horizon:#6FA8B0;
+    --plum:#9A6E97;
+    --line:rgba(236,231,218,.12);
+    --line-soft:rgba(236,231,218,.07);
+    --serif:"Fraunces",Georgia,serif;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--bone);
+    font-family:var(--sans);
+    font-weight:400;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(1200px 600px at 78% -10%, rgba(227,164,90,.10), transparent 60%),
+      radial-gradient(900px 700px at -5% 110%, rgba(111,168,176,.08), transparent 60%);
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative;z-index:1}
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- type ---------- */
+  .eyebrow{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--ember);font-weight:500;
+    display:inline-flex;align-items:center;gap:.6em;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--ember);opacity:.7}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.04;letter-spacing:-.01em}
+  .lede{color:var(--muted);font-size:1.06rem;max-width:62ch}
+  .mono{font-family:var(--mono)}
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position:fixed;top:0;left:0;right:0;z-index:40;
+    backdrop-filter:blur(10px);
+    background:rgba(14,19,32,.72);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-in{max-width:var(--maxw);margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:24px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--serif);font-size:1.18rem;letter-spacing:.04em}
+  .brand svg{width:26px;height:26px;flex:0 0 auto}
+  .brand b{font-weight:600}
+  .nav-links{display:flex;gap:26px;margin-left:auto;align-items:center}
+  .nav-links a{font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;color:var(--muted);transition:color .2s}
+  .nav-links a:hover{color:var(--bone)}
+  .lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-family:var(--mono);font-size:.74rem}
+  .lang button{background:none;border:none;color:var(--muted);padding:6px 11px;cursor:pointer;letter-spacing:.06em;transition:.2s}
+  .lang button.on{background:var(--ember);color:var(--ink);font-weight:500}
+  @media(max-width:860px){.nav-links a:not(.skip){display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{padding:148px 0 60px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.02fr 1.2fr;gap:54px;align-items:center}
+  .hero h1{font-size:clamp(2.6rem,6.2vw,4.7rem);margin:20px 0 22px}
+  .hero h1 em{font-style:italic;color:var(--ember)}
+  .hero .lede{font-size:1.14rem}
+  .hero-meta{margin-top:30px;display:flex;gap:28px;flex-wrap:wrap;font-family:var(--mono);font-size:.76rem;color:var(--muted)}
+  .hero-meta span b{color:var(--bone);font-weight:500}
+  @media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:34px}.hero{padding:120px 0 40px}}
+
+  /* ---------- cone ---------- */
+  .cone-card{
+    border:1px solid var(--line);border-radius:16px;background:linear-gradient(160deg,var(--ink-2),var(--ink));
+    padding:18px 18px 8px;position:relative;overflow:hidden;
+  }
+  .cone-card svg{display:block;width:100%;height:auto}
+  .cone-legend{display:flex;flex-wrap:wrap;gap:14px 20px;padding:10px 6px 8px;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+  .cone-legend i{width:16px;height:8px;border-radius:2px;display:inline-block;margin-right:7px;vertical-align:middle}
+  .band-fill{transition:opacity .3s}
+  @media(prefers-reduced-motion: no-preference){
+    .draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw 2s ease forwards}
+    .draw.d2{animation-delay:.35s}
+    .draw.d3{animation-delay:.7s}
+    .draw.d4{animation-delay:1.05s}
+    .grow{transform-origin:var(--ox,80px) 260px;transform:scaleX(0);animation:grow 1.4s cubic-bezier(.2,.8,.2,1) forwards;opacity:0}
+    .grow.g2{animation-delay:.18s}.grow.g3{animation-delay:.36s}
+    .pref-path{stroke-dasharray:var(--plen);stroke-dashoffset:var(--plen);animation:draw 1.8s ease 1.15s forwards}
+    .pref-dot{opacity:0;animation:pop .5s ease 2.7s forwards}
+    @keyframes draw{to{stroke-dashoffset:0}}
+    @keyframes grow{to{transform:scaleX(1);opacity:1}}
+    @keyframes pop{to{opacity:1}}
+  }
+
+  /* ---------- generic section ---------- */
+  .section{padding:92px 0;border-top:1px solid var(--line-soft)}
+  .section-head{max-width:70ch;margin-bottom:46px}
+  .section-head h2{font-size:clamp(1.9rem,3.6vw,2.8rem);margin:16px 0 16px}
+
+  /* ---------- epistemology ---------- */
+  .epi-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:start}
+  .epi-quote{font-family:var(--serif);font-size:1.35rem;line-height:1.4;color:var(--bone);border-left:2px solid var(--ember);padding-left:22px;margin:8px 0 22px}
+  .epi-quote cite{display:block;margin-top:12px;font-family:var(--mono);font-size:.74rem;font-style:normal;color:var(--muted);letter-spacing:.04em}
+  .taxo{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .taxo-row{display:grid;grid-template-columns:118px 1fr;gap:0;border-bottom:1px solid var(--line-soft)}
+  .taxo-row:last-child{border-bottom:none}
+  .taxo-k{padding:16px 16px;font-family:var(--mono);font-size:.78rem;letter-spacing:.04em;display:flex;align-items:center;gap:9px;border-right:1px solid var(--line-soft)}
+  .taxo-k i{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+  .taxo-v{padding:16px 18px;color:var(--muted);font-size:.94rem}
+  .taxo-v b{color:var(--bone);font-weight:500}
+  @media(max-width:860px){.epi-grid{grid-template-columns:1fr;gap:30px}}
+
+  /* ---------- methods ---------- */
+  .methods{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .method{background:var(--ink);padding:26px 24px;display:flex;flex-direction:column;gap:11px;transition:background .25s}
+  .method:hover{background:var(--ink-2)}
+  .method .tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--horizon)}
+  .method h3{font-size:1.28rem}
+  .method p{color:var(--muted);font-size:.9rem;line-height:1.55}
+  .method .src{font-family:var(--mono);font-size:.7rem;color:var(--muted-2);margin-top:auto;padding-top:6px}
+  @media(max-width:860px){.methods{grid-template-columns:1fr}}
+
+  /* ---------- horizons ---------- */
+  .horizon-bar{display:flex;gap:0;border:1px solid var(--line);border-radius:999px;overflow:hidden;width:max-content;margin-bottom:38px;font-family:var(--mono)}
+  .horizon-bar button{background:none;border:none;color:var(--muted);padding:12px 26px;cursor:pointer;font-size:.86rem;letter-spacing:.04em;transition:.22s;position:relative}
+  .horizon-bar button.on{background:var(--ember);color:var(--ink);font-weight:500}
+  .horizon-bar button:not(.on):hover{color:var(--bone)}
+  .dom-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .dom{border:1px solid var(--line);border-radius:14px;padding:24px 24px;background:var(--ink-2);position:relative;overflow:hidden}
+  .dom::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ember);opacity:.55}
+  .dom-top{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+  .dom-glyph{width:40px;height:40px;border:1px solid var(--line);border-radius:10px;display:grid;place-items:center;color:var(--ember);flex:0 0 auto}
+  .dom-glyph svg{width:21px;height:21px}
+  .dom h3{font-size:1.18rem}
+  .dom .txt{color:var(--muted);font-size:.93rem;min-height:3.4em;transition:opacity .3s}
+  .dom .unc{margin-top:16px;padding-top:13px;border-top:1px solid var(--line-soft);font-family:var(--mono);font-size:.72rem;color:var(--muted-2);display:flex;gap:8px;align-items:baseline}
+  .dom .unc b{color:var(--horizon);font-weight:500;letter-spacing:.04em}
+  .conf{display:inline-flex;gap:3px;margin-left:auto}
+  .conf i{width:6px;height:13px;border-radius:1px;background:var(--line)}
+  .conf i.on{background:var(--horizon)}
+  @media(max-width:780px){.dom-grid{grid-template-columns:1fr}}
+
+  /* ---------- scenarios ---------- */
+  .scen-wrap{display:grid;grid-template-columns:1fr;gap:30px}
+  .scen-controls{display:flex;flex-wrap:wrap;gap:26px;align-items:flex-end}
+  .axis-ctl label{display:block;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--horizon);margin-bottom:8px}
+  .axis-ctl select{
+    background:var(--ink-2);color:var(--bone);border:1px solid var(--line);border-radius:9px;
+    padding:10px 14px;font-family:var(--sans);font-size:.92rem;min-width:240px;cursor:pointer;
+  }
+  .matrix{position:relative;border:1px solid var(--line);border-radius:16px;background:var(--ink-2);padding:54px;margin-top:6px}
+  .matrix-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line);border-radius:12px;overflow:hidden;aspect-ratio:1.55/1}
+  .quad{background:var(--ink);padding:24px;display:flex;flex-direction:column;gap:9px;transition:background .25s}
+  .quad:hover{background:var(--ink-3)}
+  .quad .qn{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ember)}
+  .quad h4{font-family:var(--serif);font-size:1.22rem;font-weight:500}
+  .quad p{color:var(--muted);font-size:.86rem;line-height:1.5}
+  .axis-label{position:absolute;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--muted)}
+  .axis-label.top{top:20px;left:50%;transform:translateX(-50%)}
+  .axis-label.bot{bottom:20px;left:50%;transform:translateX(-50%)}
+  .axis-label.lft{left:14px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:left center;white-space:nowrap}
+  .axis-label.rgt{right:14px;top:50%;transform:translateY(-50%) rotate(90deg);transform-origin:right center;white-space:nowrap}
+  .axis-label b{color:var(--bone);font-weight:500}
+  @media(max-width:780px){.matrix{padding:40px 30px}.matrix-grid{aspect-ratio:1/1.2}}
+
+  /* ---------- signals ---------- */
+  .sig-filter{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:30px}
+  .sig-filter button{background:var(--ink-2);border:1px solid var(--line);color:var(--muted);padding:7px 15px;border-radius:999px;font-family:var(--mono);font-size:.74rem;cursor:pointer;transition:.2s}
+  .sig-filter button.on{border-color:var(--ember);color:var(--ember)}
+  .sig-list{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .sig{background:var(--ink);padding:20px 22px;display:flex;gap:16px;align-items:flex-start;transition:.25s}
+  .sig:hover{background:var(--ink-2)}
+  .sig .cat{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:5px;border:1px solid var(--line);color:var(--horizon);flex:0 0 auto;white-space:nowrap;align-self:flex-start}
+  .sig .body strong{display:block;font-weight:500;margin-bottom:4px}
+  .sig .body span{color:var(--muted);font-size:.88rem}
+  @media(max-width:780px){.sig-list{grid-template-columns:1fr}}
+
+  /* ---------- references ---------- */
+  .refs{columns:2;column-gap:48px}
+  .refs li{break-inside:avoid;list-style:none;padding:13px 0;border-bottom:1px solid var(--line-soft);font-size:.88rem;color:var(--muted)}
+  .refs li b{color:var(--bone);font-weight:500}
+  .refs li span{font-family:var(--mono);font-size:.72rem;color:var(--muted-2)}
+  @media(max-width:680px){.refs{columns:1}}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:54px 0 60px;margin-top:30px}
+  .foot-grid{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;align-items:flex-end}
+  .foot-grid .disc{max-width:46ch;color:var(--muted);font-size:.86rem}
+  .foot-grid .meta{font-family:var(--mono);font-size:.74rem;color:var(--muted-2);text-align:right;line-height:1.9}
+  .foot-grid .meta a{color:var(--horizon)}
+  :focus-visible{outline:2px solid var(--ember);outline-offset:3px;border-radius:3px}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="HORIZON">
+      <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <path d="M4 14 L24 5 L24 23 Z" fill="rgba(227,164,90,.16)"/>
+        <path d="M4 14 L24 9 L24 19 Z" fill="rgba(227,164,90,.28)"/>
+        <path d="M4 14 L24 7" stroke="#E3A45A" stroke-width="1.4"/>
+        <circle cx="4" cy="14" r="2.2" fill="#E3A45A"/>
+      </svg>
+      <span>HORIZON</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#epistemologie" data-i18n="nav.epi">Épistémologie</a>
+      <a href="#methodes" data-i18n="nav.met">Méthodes</a>
+      <a href="#horizons" data-i18n="nav.hor">Horizons</a>
+      <a href="#scenarios" data-i18n="nav.scen">Scénarios</a>
+      <a href="#signaux" data-i18n="nav.sig">Signaux faibles</a>
+      <div class="lang skip" role="group" aria-label="Langue / Language">
+        <button data-setlang="fr" class="on">FR</button>
+        <button data-setlang="en">EN</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero wrap" id="accueil">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow" data-i18n="hero.eyebrow">Observatoire de prospective stratégique</span>
+      <h1 data-i18n-html="hero.title">Penser les futurs <em>plausibles</em>, non prédire l’avenir.</h1>
+      <p class="lede" data-i18n="hero.lede">La prospective n’est pas une voyance outillée. C’est une discipline de l’exploration : cartographier méthodiquement l’espace des possibles, en discipliner l’incertitude, et éclairer la décision présente à la lumière de futurs contrastés.</p>
+      <div class="hero-meta">
+        <span data-i18n-html="hero.m1"><b>1957</b> · naissance du terme « prospective »</span>
+        <span data-i18n-html="hero.m2"><b>4</b> classes de futurs</span>
+        <span data-i18n-html="hero.m3"><b>3</b> horizons · 2030 / 2040 / 2050</span>
+      </div>
+    </div>
+
+    <div class="cone-card" aria-label="Le cône des futurs">
+      <svg viewBox="0 0 1000 520" role="img" aria-labelledby="conetitle">
+        <title id="conetitle">Le cône des futurs : du probable au possible</title>
+        <!-- horizon gridlines -->
+        <g stroke="var(--line)" stroke-width="1">
+          <line x1="80" y1="40" x2="80" y2="480"/>
+          <line x1="370" y1="60" x2="370" y2="460" stroke="var(--line-soft)"/>
+          <line x1="630" y1="40" x2="630" y2="480" stroke="var(--line-soft)"/>
+          <line x1="890" y1="22" x2="890" y2="498" stroke="var(--line-soft)"/>
+        </g>
+        <!-- bands (nested wedges) -->
+        <polygon class="band-fill grow g3" style="--ox:80px" points="80,260 940,60 940,460" fill="rgba(154,110,151,.16)"/>
+        <polygon class="band-fill grow g2" style="--ox:80px" points="80,260 940,128 940,392" fill="rgba(111,168,176,.18)"/>
+        <polygon class="band-fill grow"    style="--ox:80px" points="80,260 940,196 940,324" fill="rgba(227,164,90,.20)"/>
+        <!-- outer envelope dashed -->
+        <polyline class="draw d4" style="--len:1760" points="940,30 80,260 940,490" fill="none" stroke="var(--plum)" stroke-width="1.3" stroke-dasharray="3 6" opacity=".7"/>
+        <!-- band edges -->
+        <line class="draw d3" style="--len:880" x1="80" y1="260" x2="940" y2="60" stroke="var(--plum)" stroke-width="1" opacity=".6"/>
+        <line class="draw d3" style="--len:880" x1="80" y1="260" x2="940" y2="460" stroke="var(--plum)" stroke-width="1" opacity=".6"/>
+        <line class="draw d2" style="--len:870" x1="80" y1="260" x2="940" y2="128" stroke="var(--horizon)" stroke-width="1.1" opacity=".75"/>
+        <line class="draw d2" style="--len:870" x1="80" y1="260" x2="940" y2="392" stroke="var(--horizon)" stroke-width="1.1" opacity=".75"/>
+        <line class="draw" style="--len:862" x1="80" y1="260" x2="940" y2="196" stroke="var(--ember)" stroke-width="1.2"/>
+        <line class="draw" style="--len:862" x1="80" y1="260" x2="940" y2="324" stroke="var(--ember)" stroke-width="1.2"/>
+        <!-- preferable trajectory -->
+        <path class="pref-path" style="--plen:920" d="M80,260 C 360,250 520,210 940,150" fill="none" stroke="var(--ember)" stroke-width="2.6"/>
+        <circle class="pref-dot" cx="940" cy="150" r="6" fill="var(--ember)"/>
+        <circle cx="80" cy="260" r="5.5" fill="var(--bone)"/>
+        <!-- labels -->
+        <g font-family="var(--mono)" font-size="15" fill="var(--bone)">
+          <text x="600" y="222" fill="var(--ember)" data-i18n="cone.probable">Probable</text>
+          <text x="640" y="118" fill="var(--horizon)" data-i18n="cone.plausible">Plausible</text>
+          <text x="660" y="58"  fill="var(--plum)" data-i18n="cone.possible">Possible</text>
+          <text x="700" y="142" fill="var(--ember)" font-style="italic" data-i18n="cone.preferable">Préférable</text>
+        </g>
+        <g font-family="var(--mono)" font-size="13" fill="var(--muted)" text-anchor="middle">
+          <text x="80" y="505" data-i18n="cone.now">Présent</text>
+          <text x="370" y="505">2030</text>
+          <text x="630" y="505">2040</text>
+          <text x="890" y="513">2050</text>
+        </g>
+      </svg>
+      <div class="cone-legend">
+        <span><i style="background:var(--ember)"></i><span data-i18n="cone.lp">Le présent contraint, mais ne ferme pas, l’éventail des devenirs.</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EPISTEMOLOGIE -->
+<section class="section" id="epistemologie">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow" data-i18n="epi.eyebrow">Fondement</span>
+      <h2 data-i18n="epi.title">Une épistémologie de l’incertitude assumée</h2>
+      <p class="lede" data-i18n="epi.lede">Le futur n’est pas un objet de connaissance : il n’existe pas encore. La prospective ne produit donc pas de vérités sur demain, mais des futurs raisonnés — des hypothèses cohérentes, traçables et discutables, dont la valeur se mesure à leur fécondité pour l’action présente.</p>
+    </div>
+    <div class="epi-grid">
+      <div>
+        <blockquote class="epi-quote" data-i18n-html="epi.quote">« Demain ne sera pas comme hier. Il sera nouveau et il dépendra de nous. Il est moins à découvrir qu’à inventer. »<cite>Gaston Berger, fondateur de la prospective française (1957)</cite></blockquote>
+        <p style="color:var(--muted);font-size:.96rem" data-i18n="epi.p1">Là où la prévision extrapole les tendances et présuppose la continuité, la prospective interroge les ruptures. Elle assume la pluralité des avenirs (les <em>futuribles</em> de Bertrand de Jouvenel), distingue le tendanciel du volontaire, et tient l’erreur non pour un échec mais pour une information sur la robustesse des hypothèses.</p>
+        <p style="color:var(--muted);font-size:.96rem;margin-top:14px" data-i18n="epi.p2">Trois exigences en garantissent la rigueur : l’explicitation des hypothèses, la traçabilité du raisonnement, et la calibration — confronter systématiquement les anticipations aux résultats pour mesurer, et corriger, sa propre fiabilité.</p>
+      </div>
+      <div>
+        <div class="taxo" aria-label="Taxonomie des futurs">
+          <div class="taxo-row">
+            <div class="taxo-k"><i style="background:var(--ember)"></i><span data-i18n="cone.probable">Probable</span></div>
+            <div class="taxo-v" data-i18n-html="epi.t1"><b>Ce qui adviendra vraisemblablement</b> si les dynamiques actuelles se prolongent. Le futur tendanciel.</div>
+          </div>
+          <div class="taxo-row">
+            <div class="taxo-k"><i style="background:var(--horizon)"></i><span data-i18n="cone.plausible">Plausible</span></div>
+            <div class="taxo-v" data-i18n-html="epi.t2"><b>Ce qui pourrait advenir</b> sur la base de nos connaissances présentes, sans violer aucune loi connue.</div>
+          </div>
+          <div class="taxo-row">
+            <div class="taxo-k"><i style="background:var(--plum)"></i><span data-i18n="cone.possible">Possible</span></div>
+            <div class="taxo-v" data-i18n-html="epi.t3"><b>Tout ce qui n’est pas impossible</b>, y compris ce qui supposerait des savoirs encore inexistants.</div>
+          </div>
+          <div class="taxo-row">
+            <div class="taxo-k" style="color:var(--ember)"><i style="background:var(--ember)"></i><span data-i18n="cone.preferable">Préférable</span></div>
+            <div class="taxo-v" data-i18n-html="epi.t4"><b>Ce que nous voudrions voir advenir</b> — dimension normative et politique, distincte de la probabilité.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODES -->
+<section class="section" id="methodes">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow" data-i18n="met.eyebrow">Boîte à outils</span>
+      <h2 data-i18n="met.title">Méthodes de la prospective</h2>
+      <p class="lede" data-i18n="met.lede">Aucune méthode ne « voit » l’avenir. Chacune discipline une facette de l’incertitude : structurer un système, faire dialoguer des experts, explorer des combinaisons, ou remonter d’un futur désiré jusqu’au présent.</p>
+    </div>
+    <div class="methods" id="methodsGrid"></div>
+  </div>
+</section>
+
+<!-- HORIZONS -->
+<section class="section" id="horizons">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow" data-i18n="hor.eyebrow">Mégatendances</span>
+      <h2 data-i18n="hor.title">Domaines de transformation, par horizon</h2>
+      <p class="lede" data-i18n="hor.lede">Sept champs où se jouent les recompositions majeures. Sélectionnez un horizon : les notes ci-dessous sont des hypothèses plausibles assorties d’un indice de confiance épistémique — non des prédictions.</p>
+    </div>
+    <div class="horizon-bar" role="group" aria-label="Horizon temporel">
+      <button data-h="2030" class="on">2030</button>
+      <button data-h="2040">2040</button>
+      <button data-h="2050">2050</button>
+    </div>
+    <div class="dom-grid" id="domGrid"></div>
+  </div>
+</section>
+
+<!-- SCENARIOS -->
+<section class="section" id="scenarios">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow" data-i18n="scen.eyebrow">Méthode des scénarios</span>
+      <h2 data-i18n="scen.title">La matrice morphologique 2×2</h2>
+      <p class="lede" data-i18n="scen.lede">Choisissez deux incertitudes structurantes et indépendantes. Leur croisement engendre quatre futurs contrastés et cohérents — l’instrument fondateur de la planification par scénarios.</p>
+    </div>
+    <div class="scen-wrap">
+      <div class="scen-controls">
+        <div class="axis-ctl">
+          <label data-i18n="scen.axisX">Axe horizontal — gouvernance</label>
+          <select id="axisX"></select>
+        </div>
+        <div class="axis-ctl">
+          <label data-i18n="scen.axisY">Axe vertical — technologie</label>
+          <select id="axisY"></select>
+        </div>
+      </div>
+      <div class="matrix">
+        <div class="axis-label top"><b id="lblYpos"></b></div>
+        <div class="axis-label bot"><b id="lblYneg"></b></div>
+        <div class="axis-label lft"><b id="lblXneg"></b></div>
+        <div class="axis-label rgt"><b id="lblXpos"></b></div>
+        <div class="matrix-grid" id="matrixGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNAUX -->
+<section class="section" id="signaux">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow" data-i18n="sig.eyebrow">Balayage d’horizon</span>
+      <h2 data-i18n="sig.title">Signaux faibles en veille</h2>
+      <p class="lede" data-i18n="sig.lede">Au sens d’Igor Ansoff : des indices fragmentaires, encore ambigus, susceptibles d’annoncer une discontinuité majeure. Les repérer tôt, c’est gagner du temps de manœuvre.</p>
+    </div>
+    <div class="sig-filter" id="sigFilter"></div>
+    <div class="sig-list" id="sigList"></div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section class="section" id="references">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow" data-i18n="ref.eyebrow">Appareil critique</span>
+      <h2 data-i18n="ref.title">Sources et filiations</h2>
+    </div>
+    <ul class="refs" id="refsList"></ul>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand" style="margin-bottom:14px">
+        <svg viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="M4 14 L24 5 L24 23 Z" fill="rgba(227,164,90,.16)"/><path d="M4 14 L24 7" stroke="#E3A45A" stroke-width="1.4"/><circle cx="4" cy="14" r="2.2" fill="#E3A45A"/></svg>
+        <span>HORIZON</span>
+      </div>
+      <p class="disc" data-i18n="foot.disc">Cet observatoire explore des futurs plausibles à fin d’aide à la décision. Il ne prédit pas l’avenir. Toute anticipation y est une hypothèse révisable, datée et conditionnelle.</p>
+    </div>
+    <div class="meta">
+      <div>Assistance Multi&nbsp;IA · Genève</div>
+      <div><a href="mailto:Assistant-Multi-AI@proton.me">Assistant-Multi-AI@proton.me</a></div>
+      <div data-i18n="foot.year">Édition prospective — 2026</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================ DATA ============================ */
+const T = {
+  fr:{
+    "nav.epi":"Épistémologie","nav.met":"Méthodes","nav.hor":"Horizons","nav.scen":"Scénarios","nav.sig":"Signaux faibles",
+    "hero.eyebrow":"Observatoire de prospective stratégique",
+    "hero.title":"Penser les futurs <em>plausibles</em>, non prédire l’avenir.",
+    "hero.lede":"La prospective n’est pas une voyance outillée. C’est une discipline de l’exploration : cartographier méthodiquement l’espace des possibles, en discipliner l’incertitude, et éclairer la décision présente à la lumière de futurs contrastés.",
+    "hero.m1":"<b>1957</b> · naissance du terme « prospective »","hero.m2":"<b>4</b> classes de futurs","hero.m3":"<b>3</b> horizons · 2030 / 2040 / 2050",
+    "cone.probable":"Probable","cone.plausible":"Plausible","cone.possible":"Possible","cone.preferable":"Préférable","cone.now":"Présent",
+    "cone.lp":"Le présent contraint, mais ne ferme pas, l’éventail des devenirs.",
+    "epi.eyebrow":"Fondement","epi.title":"Une épistémologie de l’incertitude assumée",
+    "epi.lede":"Le futur n’est pas un objet de connaissance : il n’existe pas encore. La prospective ne produit donc pas de vérités sur demain, mais des futurs raisonnés — des hypothèses cohérentes, traçables et discutables, dont la valeur se mesure à leur fécondité pour l’action présente.",
+    "epi.quote":"« Demain ne sera pas comme hier. Il sera nouveau et il dépendra de nous. Il est moins à découvrir qu’à inventer. »<cite>Gaston Berger, fondateur de la prospective française (1957)</cite>",
+    "epi.p1":"Là où la prévision extrapole les tendances et présuppose la continuité, la prospective interroge les ruptures. Elle assume la pluralité des avenirs (les <em>futuribles</em> de Bertrand de Jouvenel), distingue le tendanciel du volontaire, et tient l’erreur non pour un échec mais pour une information sur la robustesse des hypothèses.",
+    "epi.p2":"Trois exigences en garantissent la rigueur : l’explicitation des hypothèses, la traçabilité du raisonnement, et la calibration — confronter systématiquement les anticipations aux résultats pour mesurer, et corriger, sa propre fiabilité.",
+    "epi.t1":"<b>Ce qui adviendra vraisemblablement</b> si les dynamiques actuelles se prolongent. Le futur tendanciel.",
+    "epi.t2":"<b>Ce qui pourrait advenir</b> sur la base de nos connaissances présentes, sans violer aucune loi connue.",
+    "epi.t3":"<b>Tout ce qui n’est pas impossible</b>, y compris ce qui supposerait des savoirs encore inexistants.",
+    "epi.t4":"<b>Ce que nous voudrions voir advenir</b> — dimension normative et politique, distincte de la probabilité.",
+    "met.eyebrow":"Boîte à outils","met.title":"Méthodes de la prospective",
+    "met.lede":"Aucune méthode ne « voit » l’avenir. Chacune discipline une facette de l’incertitude : structurer un système, faire dialoguer des experts, explorer des combinaisons, ou remonter d’un futur désiré jusqu’au présent.",
+    "hor.eyebrow":"Mégatendances","hor.title":"Domaines de transformation, par horizon",
+    "hor.lede":"Sept champs où se jouent les recompositions majeures. Sélectionnez un horizon : les notes ci-dessous sont des hypothèses plausibles assorties d’un indice de confiance épistémique — non des prédictions.",
+    "hor.unc":"Incertitude clé","hor.conf":"Confiance",
+    "scen.eyebrow":"Méthode des scénarios","scen.title":"La matrice morphologique 2×2",
+    "scen.lede":"Choisissez deux incertitudes structurantes et indépendantes. Leur croisement engendre quatre futurs contrastés et cohérents — l’instrument fondateur de la planification par scénarios.",
+    "scen.axisX":"Axe horizontal","scen.axisY":"Axe vertical",
+    "sig.eyebrow":"Balayage d’horizon","sig.title":"Signaux faibles en veille",
+    "sig.lede":"Au sens d’Igor Ansoff : des indices fragmentaires, encore ambigus, susceptibles d’annoncer une discontinuité majeure. Les repérer tôt, c’est gagner du temps de manœuvre.",
+    "sig.all":"Tous",
+    "ref.eyebrow":"Appareil critique","ref.title":"Sources et filiations",
+    "foot.disc":"Cet observatoire explore des futurs plausibles à fin d’aide à la décision. Il ne prédit pas l’avenir. Toute anticipation y est une hypothèse révisable, datée et conditionnelle.",
+    "foot.year":"Édition prospective — 2026"
+  },
+  en:{
+    "nav.epi":"Epistemology","nav.met":"Methods","nav.hor":"Horizons","nav.scen":"Scenarios","nav.sig":"Weak signals",
+    "hero.eyebrow":"Strategic Foresight Observatory",
+    "hero.title":"Thinking <em>plausible</em> futures, not predicting what comes.",
+    "hero.lede":"Foresight is not divination with better tools. It is a discipline of exploration: mapping the space of possibilities methodically, disciplining uncertainty, and illuminating present decisions in the light of contrasting futures.",
+    "hero.m1":"<b>1957</b> · coining of “la prospective”","hero.m2":"<b>4</b> classes of futures","hero.m3":"<b>3</b> horizons · 2030 / 2040 / 2050",
+    "cone.probable":"Probable","cone.plausible":"Plausible","cone.possible":"Possible","cone.preferable":"Preferable","cone.now":"Present",
+    "cone.lp":"The present constrains, but does not close, the fan of becomings.",
+    "epi.eyebrow":"Foundation","epi.title":"An epistemology of acknowledged uncertainty",
+    "epi.lede":"The future is not an object of knowledge: it does not yet exist. Foresight therefore produces no truths about tomorrow, but reasoned futures — coherent, traceable, debatable hypotheses whose worth is measured by their fruitfulness for present action.",
+    "epi.quote":"“Tomorrow will not be like yesterday. It will be new, and it will depend on us. It is less to be discovered than to be invented.”<cite>Gaston Berger, founder of French foresight (1957)</cite>",
+    "epi.p1":"Where forecasting extrapolates trends and assumes continuity, foresight interrogates ruptures. It embraces the plurality of futures (Bertrand de Jouvenel’s <em>futuribles</em>), separates the trend-bound from the willed, and treats error not as failure but as information about the robustness of its assumptions.",
+    "epi.p2":"Three requirements secure its rigour: making assumptions explicit, keeping reasoning traceable, and calibration — systematically confronting anticipations with outcomes to measure, and correct, one’s own reliability.",
+    "epi.t1":"<b>What will likely happen</b> if current dynamics persist. The trend-bound future.",
+    "epi.t2":"<b>What could happen</b> on the basis of present knowledge, violating no known law.",
+    "epi.t3":"<b>Everything not impossible</b>, including what would require knowledge that does not yet exist.",
+    "epi.t4":"<b>What we would wish to see</b> — a normative, political dimension, distinct from probability.",
+    "met.eyebrow":"Toolbox","met.title":"Methods of foresight",
+    "met.lede":"No method “sees” the future. Each disciplines one facet of uncertainty: structuring a system, putting experts in dialogue, exploring combinations, or tracing back from a desired future to the present.",
+    "hor.eyebrow":"Megatrends","hor.title":"Domains of transformation, by horizon",
+    "hor.lede":"Seven fields where the major recompositions play out. Pick a horizon: the notes below are plausible hypotheses with an epistemic-confidence index — not predictions.",
+    "hor.unc":"Key uncertainty","hor.conf":"Confidence",
+    "scen.eyebrow":"Scenario method","scen.title":"The 2×2 morphological matrix",
+    "scen.lede":"Choose two structuring, independent uncertainties. Their crossing yields four contrasting, coherent futures — the founding instrument of scenario planning.",
+    "scen.axisX":"Horizontal axis","scen.axisY":"Vertical axis",
+    "sig.eyebrow":"Horizon scanning","sig.title":"Weak signals under watch",
+    "sig.lede":"In Igor Ansoff’s sense: fragmentary, still-ambiguous cues that may herald a major discontinuity. Spotting them early buys room to manoeuvre.",
+    "sig.all":"All",
+    "ref.eyebrow":"Critical apparatus","ref.title":"Sources and lineages",
+    "foot.disc":"This observatory explores plausible futures to support decision-making. It does not predict the future. Every anticipation here is a revisable, dated, conditional hypothesis.",
+    "foot.year":"Foresight edition — 2026"
+  }
+};
+
+const METHODS = [
+  {tag:{fr:"Exploratoire · qualitatif",en:"Exploratory · qualitative"},name:{fr:"Méthode des scénarios",en:"Scenario method"},
+   desc:{fr:"Construire un petit nombre de récits cohérents et contrastés à partir des incertitudes structurantes d’un système.",en:"Build a small number of coherent, contrasting narratives from a system’s structuring uncertainties."},
+   src:{fr:"Kahn · Wack (Shell) · Godet",en:"Kahn · Wack (Shell) · Godet"}},
+  {tag:{fr:"Participatif · convergent",en:"Participatory · convergent"},name:{fr:"Méthode Delphi",en:"Delphi method"},
+   desc:{fr:"Itérer des consultations d’experts anonymes et rétroactives pour faire converger un jugement collectif sous incertitude.",en:"Iterate anonymous, feedback-driven expert rounds to converge a collective judgement under uncertainty."},
+   src:{fr:"Helmer & Dalkey · RAND, 1959",en:"Helmer & Dalkey · RAND, 1959"}},
+  {tag:{fr:"Combinatoire",en:"Combinatorial"},name:{fr:"Analyse morphologique",en:"Morphological analysis"},
+   desc:{fr:"Décomposer un problème en dimensions et balayer systématiquement l’espace des configurations possibles.",en:"Decompose a problem into dimensions and systematically sweep the space of possible configurations."},
+   src:{fr:"Fritz Zwicky, 1969",en:"Fritz Zwicky, 1969"}},
+  {tag:{fr:"Normatif · régressif",en:"Normative · backward"},name:{fr:"Rétroprojection",en:"Backcasting"},
+   desc:{fr:"Partir d’un futur souhaité et remonter le fil des conditions et décisions qui le rendraient atteignable.",en:"Start from a desired future and trace back the conditions and decisions that would make it reachable."},
+   src:{fr:"John Robinson, 1982",en:"John Robinson, 1982"}},
+  {tag:{fr:"Systémique · structurel",en:"Systemic · structural"},name:{fr:"Analyse d’impacts croisés",en:"Cross-impact analysis"},
+   desc:{fr:"Estimer comment l’occurrence d’un événement modifie la probabilité des autres, pour révéler les enchaînements.",en:"Estimate how one event’s occurrence shifts the probability of others, revealing causal chains."},
+   src:{fr:"Gordon & Hayward, 1968",en:"Gordon & Hayward, 1968"}},
+  {tag:{fr:"Détection · pré-signal",en:"Detection · pre-signal"},name:{fr:"Signaux faibles",en:"Weak signals"},
+   desc:{fr:"Repérer dans le bruit les indices précoces et ambigus d’un changement avant qu’il ne devienne tendance établie.",en:"Detect, within the noise, early ambiguous cues of change before it becomes an established trend."},
+   src:{fr:"Igor Ansoff, 1975",en:"Igor Ansoff, 1975"}},
+  {tag:{fr:"Arborescent · participatif",en:"Tree-like · participatory"},name:{fr:"Roue du futur",en:"Futures wheel"},
+   desc:{fr:"Cartographier en cascade les conséquences directes puis indirectes d’un événement ou d’une décision.",en:"Map, in cascade, the direct then indirect consequences of an event or decision."},
+   src:{fr:"Jerome Glenn, 1972",en:"Jerome Glenn, 1972"}},
+  {tag:{fr:"Quantitatif · probabiliste",en:"Quantitative · probabilistic"},name:{fr:"Prévision calibrée",en:"Calibrated forecasting"},
+   desc:{fr:"Exprimer des probabilités explicites, révisables bayésiennement, et mesurer sa propre exactitude dans le temps.",en:"State explicit, Bayesian-revisable probabilities and measure one’s own accuracy over time."},
+   src:{fr:"Tetlock · Good Judgment Project",en:"Tetlock · Good Judgment Project"}},
+  {tag:{fr:"Structurel · matriciel",en:"Structural · matrix"},name:{fr:"Analyse structurelle",en:"Structural analysis"},
+   desc:{fr:"Hiérarchiser les variables d’un système selon leur motricité et leur dépendance pour isoler les leviers clés.",en:"Rank a system’s variables by influence and dependence to isolate the key levers."},
+   src:{fr:"Godet · MICMAC",en:"Godet · MICMAC"}}
+];
+
+const ICONS = {
+  ai:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="14" height="14" rx="3"/><circle cx="9" cy="9" r="1.2"/><circle cx="15" cy="9" r="1.2"/><path d="M9 14h6"/><path d="M2 12h3M19 12h3M12 2v3M12 19v3"/></svg>',
+  bio:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 4c0 5 10 7 10 16M17 4c0 5-10 7-10 16"/><path d="M8.5 8h7M8.5 16h7"/></svg>',
+  climate:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="9" r="3.2"/><path d="M12 2v2M12 14v2M5 9h2M17 9h2"/><path d="M5 18c1.5-1.5 3-1.5 4.5 0s3 1.5 4.5 0 3-1.5 4.5 0"/><path d="M5 21c1.5-1.5 3-1.5 4.5 0s3 1.5 4.5 0 3-1.5 4.5 0"/></svg>',
+  neuro:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3a4 4 0 0 0-4 4 3 3 0 0 0-1 5 3 3 0 0 0 2 4 3 3 0 0 0 3 3"/><path d="M12 3a4 4 0 0 1 4 4 3 3 0 0 1 1 5 3 3 0 0 1-2 4 3 3 0 0 1-3 3"/><path d="M12 3v19"/></svg>',
+  demo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="2.4"/><circle cx="16" cy="8" r="2.4"/><path d="M4 19c0-2.5 1.8-4 4-4s4 1.5 4 4M12 19c0-2.5 1.8-4 4-4s4 1.5 4 4"/></svg>',
+  geo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>',
+  space:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 3c4 0 7 3 7 7 0 5-7 11-7 11S4 16 4 10"/><circle cx="14" cy="9" r="2.2"/><path d="M4 20l3-3"/></svg>'
+};
+
+const DOMAINS = [
+  {id:"ai",icon:"ai",name:{fr:"Intelligence artificielle",en:"Artificial intelligence"},conf:{2030:2,2040:2,2050:1},
+   unc:{fr:"Trajectoire des capacités vs. gouvernance",en:"Capability trajectory vs. governance"},
+   h:{2030:{fr:"Diffusion d’agents autonomes spécialisés dans les flux de travail ; déplacement de la valeur vers l’orchestration, la donnée propriétaire et la vérification. Débat de souveraineté sur les modèles de fondation.",en:"Specialised autonomous agents diffuse through workflows; value shifts toward orchestration, proprietary data and verification. Sovereignty debate over foundation models intensifies."},
+       2040:{fr:"Possible généralisation de systèmes para-experts dans la recherche et l’ingénierie ; tension croissante entre gains de productivité et reconfiguration profonde du marché du travail cognitif.",en:"Plausible spread of para-expert systems across research and engineering; growing tension between productivity gains and a deep reshaping of cognitive labour markets."},
+       2050:{fr:"Espace des possibles très ouvert : de l’intégration banalisée (« infrastructure invisible ») à des ruptures de paradigme dont la nature reste, par construction, indéterminée.",en:"A very open possibility space: from banal integration (“invisible infrastructure”) to paradigm ruptures whose nature is, by construction, indeterminate."}}},
+  {id:"bio",icon:"bio",name:{fr:"Bio-informatique & biologie de synthèse",en:"Bio-computing & synthetic biology"},conf:{2030:2,2040:1,2050:1},
+   unc:{fr:"Maturité de l’informatique biologique (wetware)",en:"Maturity of biological computing (wetware)"},
+   h:{2030:{fr:"Plateformes wetware de recherche (neurones vivants, organoïdes) consolidées comme outils expérimentaux ; biologie de synthèse appliquée aux matériaux et à la dépollution.",en:"Wetware research platforms (living neurons, organoids) consolidate as experimental tools; synthetic biology applied to materials and remediation."},
+       2040:{fr:"Hypothèse d’architectures bio-hybrides à très faible consommation pour des niches de calcul ; questions éthiques renforcées sur les substrats neuronaux.",en:"Plausible ultra-low-power bio-hybrid architectures for computing niches; sharpened ethical questions over neural substrates."},
+       2050:{fr:"Convergence possible entre calcul, biologie et matériaux programmables ; cadre normatif encore largement à inventer.",en:"Possible convergence of computing, biology and programmable materials; a normative framework still largely to be invented."}}},
+  {id:"climate",icon:"climate",name:{fr:"Climat & énergie",en:"Climate & energy"},conf:{2030:3,2040:2,2050:2},
+   unc:{fr:"Vitesse de transition vs. inertie des émissions",en:"Transition speed vs. emissions inertia"},
+   h:{2030:{fr:"Électrification et renouvelables dominent les nouvelles capacités ; intensification mesurable des extrêmes climatiques et premières adaptations systémiques.",en:"Electrification and renewables dominate new capacity; measurable intensification of climate extremes and first systemic adaptations."},
+       2040:{fr:"Adaptation devenue enjeu d’infrastructure majeur ; tension entre objectifs nets-zéro et trajectoire réelle des émissions cumulées.",en:"Adaptation becomes a major infrastructure issue; tension between net-zero targets and the real path of cumulative emissions."},
+       2050:{fr:"Bifurcation structurante entre une transition pilotée et une dérive subie ; les choix de la décennie présente conditionnent fortement l’éventail.",en:"A structuring bifurcation between a steered transition and a drift endured; this decade’s choices strongly condition the fan."}}},
+  {id:"neuro",icon:"neuro",name:{fr:"Neurotechnologies & conscience",en:"Neurotech & consciousness"},conf:{2030:2,2040:1,2050:1},
+   unc:{fr:"Frontière entre mesure et théorie de la conscience",en:"Boundary between measuring and theorising consciousness"},
+   h:{2030:{fr:"Interfaces cerveau-machine cliniques en expansion ; progrès des marqueurs neuronaux, mais aucun consensus sur une théorie unifiée de la conscience.",en:"Clinical brain-computer interfaces expand; progress on neural markers, yet no consensus on a unified theory of consciousness."},
+       2040:{fr:"Hypothèse d’applications non médicales (cognition augmentée) soulevant des enjeux d’équité et de vie privée mentale.",en:"Plausible non-medical applications (augmented cognition) raising equity and mental-privacy stakes."},
+       2050:{fr:"Champ ouvert : la question de critères opérationnels de la conscience pourrait devenir, ou non, scientifiquement tranchée.",en:"An open field: whether operational criteria for consciousness become scientifically settled remains undetermined."}}},
+  {id:"demo",icon:"demo",name:{fr:"Démographie & longévité",en:"Demographics & longevity"},conf:{2030:3,2040:3,2050:2},
+   unc:{fr:"Effet net du vieillissement sur la productivité",en:"Net effect of ageing on productivity"},
+   h:{2030:{fr:"Vieillissement marqué dans les économies avancées et en Chine ; pression sur les systèmes de retraite et de santé largement prévisible.",en:"Marked ageing in advanced economies and China; pressure on pension and health systems is largely predictable."},
+       2040:{fr:"Recompositions migratoires et tension sur la population active ; gains de longévité en bonne santé encore incertains dans leur ampleur.",en:"Migratory recompositions and strain on the working-age population; healthy-longevity gains still uncertain in magnitude."},
+       2050:{fr:"Pic démographique mondial possiblement en vue ; éventail ouvert entre dividende technologique et fardeau de dépendance.",en:"A global population peak possibly in sight; the fan stays open between a technological dividend and a dependency burden."}}},
+  {id:"geo",icon:"geo",name:{fr:"Géopolitique & gouvernance",en:"Geopolitics & governance"},conf:{2030:1,2040:1,2050:1},
+   unc:{fr:"Multipolarité coopérative ou fragmentée",en:"Cooperative vs. fragmented multipolarity"},
+   h:{2030:{fr:"Reconfiguration multipolaire et régionalisation des chaînes de valeur ; compétition technologique érigée en enjeu de sécurité.",en:"Multipolar reconfiguration and regionalised value chains; technological competition elevated to a security issue."},
+       2040:{fr:"Bifurcation entre blocs normatifs distincts (données, IA, énergie) ou recomposition d’une gouvernance globale autour de biens communs.",en:"Bifurcation between distinct normative blocs (data, AI, energy) or a recomposition of global governance around the commons."},
+       2050:{fr:"Domaine à très forte incertitude irréductible : les ruptures (conflit, accord, effondrement) y pèsent plus que les tendances.",en:"A domain of very high irreducible uncertainty: ruptures (conflict, accord, collapse) weigh more than trends."}}},
+  {id:"space",icon:"space",name:{fr:"Espace & ressources",en:"Space & resources"},conf:{2030:2,2040:1,2050:1},
+   unc:{fr:"Économie réelle de l’orbite et au-delà",en:"Real economics of orbit and beyond"},
+   h:{2030:{fr:"Baisse des coûts d’accès à l’orbite basse ; constellations, observation et services en forte croissance ; encombrement orbital comme nouveau commun à gérer.",en:"Falling cost of low-orbit access; constellations, observation and services grow fast; orbital congestion as a new commons to manage."},
+       2040:{fr:"Hypothèse d’une logistique cislunaire émergente ; viabilité économique de l’extraction de ressources encore non démontrée.",en:"Plausible emerging cislunar logistics; the economic viability of resource extraction remains undemonstrated."},
+       2050:{fr:"Possible bascule d’une présence symbolique à une présence économique soutenue — ou maintien d’un domaine essentiellement stratégique et scientifique.",en:"Possible shift from a symbolic to a sustained economic presence — or persistence of an essentially strategic and scientific domain."}}}
+];
+
+const AXES = [
+  {id:"gov",label:{fr:"Gouvernance mondiale",en:"Global governance"},pos:{fr:"Coopération coordonnée",en:"Coordinated cooperation"},neg:{fr:"Fragmentation des blocs",en:"Bloc fragmentation"}},
+  {id:"tech",label:{fr:"Rythme technologique",en:"Technological pace"},pos:{fr:"Accélération disruptive",en:"Disruptive acceleration"},neg:{fr:"Plateau & consolidation",en:"Plateau & consolidation"}},
+  {id:"clim",label:{fr:"Transition climatique",en:"Climate transition"},pos:{fr:"Transition pilotée",en:"Steered transition"},neg:{fr:"Dérive subie",en:"Drift endured"}},
+  {id:"soc",label:{fr:"Cohésion sociale",en:"Social cohesion"},pos:{fr:"Confiance & inclusion",en:"Trust & inclusion"},neg:{fr:"Défiance & polarisation",en:"Distrust & polarisation"}},
+  {id:"econ",label:{fr:"Modèle économique",en:"Economic model"},pos:{fr:"Redistribution des gains",en:"Gains redistributed"},neg:{fr:"Concentration accrue",en:"Heightened concentration"}}
+];
+
+/* quadrant generator: cohesive narratives from the two chosen axes */
+function quadName(xPos,yPos,xa,ya,lang){
+  // produce short scenario titles deterministically
+  const dict={
+    fr:[["Synergie maîtrisée","Élan déséquilibré"],["Verrouillage prudent","Repli défensif"]],
+    en:[["Mastered synergy","Unbalanced surge"],["Cautious lock-in","Defensive retreat"]]
+  };
+  return dict[lang][yPos?0:1][xPos?0:1];
+}
+function quadDesc(xPos,yPos,xa,ya,lang){
+  const x = xPos?xa.pos[lang]:xa.neg[lang];
+  const y = yPos?ya.pos[lang]:ya.neg[lang];
+  if(lang==="fr") return `Monde où prévalent « ${y.toLowerCase()} » et « ${x.toLowerCase()} ». Les arbitrages, les gagnants et les fragilités y diffèrent radicalement des autres cases.`;
+  return `A world where “${y.toLowerCase()}” meets “${x.toLowerCase()}”. Its trade-offs, winners and fragilities differ radically from the other cells.`;
+}
+
+const SIGNALS = [
+  {cat:{fr:"Technologie",en:"Technology"},k:"tech",t:{fr:"Agents IA autonomes en production",en:"Autonomous AI agents in production"},d:{fr:"Premiers déploiements d’agents exécutant des chaînes de tâches sans supervision continue.",en:"First deployments of agents running task chains without continuous supervision."}},
+  {cat:{fr:"Bio",en:"Bio"},k:"bio",t:{fr:"Calcul sur neurones vivants",en:"Computing on living neurons"},d:{fr:"Plateformes commerciales de bio-calcul ouvertes à la recherche académique et industrielle.",en:"Commercial bio-computing platforms opened to academic and industrial research."}},
+  {cat:{fr:"Climat",en:"Climate"},k:"clim",t:{fr:"Migration climatique intra-nationale",en:"Intra-national climate migration"},d:{fr:"Déplacements de population motivés par l’habitabilité, encore localisés mais documentés.",en:"Habitability-driven population moves, still localised but documented."}},
+  {cat:{fr:"Société",en:"Society"},k:"soc",t:{fr:"Défiance envers les médias synthétiques",en:"Distrust of synthetic media"},d:{fr:"Demande croissante de preuves de provenance et d’authentification du réel.",en:"Rising demand for provenance proofs and authentication of the real."}},
+  {cat:{fr:"Économie",en:"Economy"},k:"econ",t:{fr:"Monnaies numériques de banque centrale",en:"Central-bank digital currencies"},d:{fr:"Pilotes nationaux passant à l’échelle, redéfinissant l’infrastructure du paiement.",en:"National pilots scaling up, redefining payment infrastructure."}},
+  {cat:{fr:"Géopolitique",en:"Geopolitics"},k:"geo",t:{fr:"Régionalisation des chaînes critiques",en:"Regionalising critical supply chains"},d:{fr:"Relocalisation des semi-conducteurs, batteries et intrants stratégiques par blocs.",en:"Reshoring of semiconductors, batteries and strategic inputs along bloc lines."}},
+  {cat:{fr:"Technologie",en:"Technology"},k:"tech",t:{fr:"Énergie : seuils de coût franchis",en:"Energy: cost thresholds crossed"},d:{fr:"Stockage et solaire sous des seuils qui reconfigurent l’économie de l’électricité.",en:"Storage and solar below thresholds that reconfigure electricity economics."}},
+  {cat:{fr:"Société",en:"Society"},k:"soc",t:{fr:"Sémantique de la « vie privée mentale »",en:"A “mental privacy” vocabulary"},d:{fr:"Émergence d’un cadre juridique autour des données neuronales et cognitives.",en:"Emergence of a legal frame around neural and cognitive data."}}
+];
+
+const REFS = [
+  {a:"Gaston Berger",t:{fr:"L’attitude prospective",en:"The prospective attitude"},y:"1957"},
+  {a:"Bertrand de Jouvenel",t:{fr:"L’Art de la conjecture",en:"The Art of Conjecture"},y:"1964"},
+  {a:"Herman Kahn",t:{fr:"Penser l’impensable",en:"Thinking About the Unthinkable"},y:"1962"},
+  {a:"Olaf Helmer & Norman Dalkey",t:{fr:"La méthode Delphi (RAND)",en:"The Delphi method (RAND)"},y:"1963"},
+  {a:"Fritz Zwicky",t:{fr:"Découverte, invention, recherche par l’analyse morphologique",en:"Discovery, Invention, Research"},y:"1969"},
+  {a:"Pierre Wack",t:{fr:"Scénarios : eaux inconnues (Royal Dutch Shell)",en:"Scenarios: uncharted waters (Shell)"},y:"1985"},
+  {a:"Michel Godet",t:{fr:"Manuel de prospective stratégique — MICMAC / MACTOR",en:"Creating Futures — MICMAC / MACTOR"},y:"2007"},
+  {a:"Joseph Voros",t:{fr:"A generic foresight process framework (cône des futurs)",en:"A generic foresight process framework (futures cone)"},y:"2003"},
+  {a:"Igor Ansoff",t:{fr:"Gérer par les signaux faibles",en:"Managing strategic surprise by response to weak signals"},y:"1975"},
+  {a:"Philip E. Tetlock",t:{fr:"Superforecasting — l’art de la prévision calibrée",en:"Superforecasting: The Art and Science of Prediction"},y:"2015"},
+  {a:"Jerome C. Glenn",t:{fr:"La roue du futur (Millennium Project)",en:"The Futures Wheel (Millennium Project)"},y:"1972"},
+  {a:"Theodore Gordon & H. Hayward",t:{fr:"Analyse d’impacts croisés",en:"Initial experiments with cross-impact analysis"},y:"1968"}
+];
+
+/* ============================ STATE & RENDER ============================ */
+let lang="fr", horizon="2030", sigFilter="all";
+
+function tr(k){return (T[lang][k]!==undefined)?T[lang][k]:k;}
+
+function applyI18n(){
+  document.querySelectorAll("[data-i18n]").forEach(el=>{el.textContent=tr(el.getAttribute("data-i18n"));});
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{el.innerHTML=tr(el.getAttribute("data-i18n-html"));});
+  document.documentElement.lang=lang;
+  document.documentElement.setAttribute("data-lang",lang);
+}
+
+function renderMethods(){
+  document.getElementById("methodsGrid").innerHTML=METHODS.map(m=>`
+    <article class="method">
+      <span class="tag">${m.tag[lang]}</span>
+      <h3>${m.name[lang]}</h3>
+      <p>${m.desc[lang]}</p>
+      <span class="src">${m.src[lang]}</span>
+    </article>`).join("");
+}
+
+function confBars(n){let s="";for(let i=0;i<3;i++)s+=`<i class="${i<n?'on':''}"></i>`;return s;}
+
+function renderDomains(){
+  document.getElementById("domGrid").innerHTML=DOMAINS.map(d=>`
+    <article class="dom">
+      <div class="dom-top">
+        <span class="dom-glyph">${ICONS[d.icon]}</span>
+        <h3>${d.name[lang]}</h3>
+      </div>
+      <p class="txt">${d.h[horizon][lang]}</p>
+      <div class="unc"><b>${tr("hor.unc")} —</b> <span>${d.unc[lang]}</span>
+        <span class="conf" title="${tr('hor.conf')}">${confBars(d.conf[horizon])}</span>
+      </div>
+    </article>`).join("");
+}
+
+function buildAxisOptions(){
+  ["axisX","axisY"].forEach((id,idx)=>{
+    const sel=document.getElementById(id);
+    sel.innerHTML=AXES.map(a=>`<option value="${a.id}">${a.label[lang]}</option>`).join("");
+    sel.selectedIndex = idx===0?0:1;
+  });
+}
+
+function renderMatrix(){
+  const xa=AXES.find(a=>a.id===document.getElementById("axisX").value);
+  const ya=AXES.find(a=>a.id===document.getElementById("axisY").value);
+  document.getElementById("lblXpos").textContent=xa.pos[lang];
+  document.getElementById("lblXneg").textContent=xa.neg[lang];
+  document.getElementById("lblYpos").textContent=ya.pos[lang];
+  document.getElementById("lblYneg").textContent=ya.neg[lang];
+  // grid order: top-left(yPos,xNeg) top-right(yPos,xPos) bottom-left(yNeg,xNeg) bottom-right(yNeg,xPos)
+  const cells=[[true,false],[true,true],[false,false],[false,true]];
+  document.getElementById("matrixGrid").innerHTML=cells.map((c,i)=>`
+    <div class="quad">
+      <span class="qn">${String(i+1).padStart(2,"0")}</span>
+      <h4>${quadName(c[1],c[0],xa,ya,lang)}</h4>
+      <p>${quadDesc(c[1],c[0],xa,ya,lang)}</p>
+    </div>`).join("");
+}
+
+function renderSigFilter(){
+  const cats=[{k:"all",label:tr("sig.all")}];
+  const seen=new Set();
+  SIGNALS.forEach(s=>{if(!seen.has(s.k)){seen.add(s.k);cats.push({k:s.k,label:s.cat[lang]});}});
+  document.getElementById("sigFilter").innerHTML=cats.map(c=>`<button data-sig="${c.k}" class="${c.k===sigFilter?'on':''}">${c.label}</button>`).join("");
+}
+function renderSignals(){
+  document.getElementById("sigList").innerHTML=SIGNALS.filter(s=>sigFilter==="all"||s.k===sigFilter).map(s=>`
+    <div class="sig">
+      <span class="cat">${s.cat[lang]}</span>
+      <div class="body"><strong>${s.t[lang]}</strong><span>${s.d[lang]}</span></div>
+    </div>`).join("");
+}
+
+function renderRefs(){
+  document.getElementById("refsList").innerHTML=REFS.map(r=>`<li><b>${r.a}</b> — ${r.t[lang]}. <span>${r.y}</span></li>`).join("");
+}
+
+function renderAll(){
+  applyI18n();renderMethods();renderDomains();renderMatrix();renderSigFilter();renderSignals();renderRefs();
+}
+
+/* ============================ EVENTS ============================ */
+document.querySelectorAll("[data-setlang]").forEach(b=>b.addEventListener("click",()=>{
+  lang=b.getAttribute("data-setlang");
+  document.querySelectorAll("[data-setlang]").forEach(x=>x.classList.toggle("on",x===b));
+  buildAxisOptions();
+  // restore prior axis choice indices reset; keep simple defaults
+  renderAll();
+}));
+document.querySelectorAll(".horizon-bar button").forEach(b=>b.addEventListener("click",()=>{
+  horizon=b.getAttribute("data-h");
+  document.querySelectorAll(".horizon-bar button").forEach(x=>x.classList.toggle("on",x===b));
+  renderDomains();
+}));
+document.getElementById("sigFilter").addEventListener("click",e=>{
+  const b=e.target.closest("[data-sig]");if(!b)return;
+  sigFilter=b.getAttribute("data-sig");renderSigFilter();renderSignals();
+});
+["axisX","axisY"].forEach(id=>document.getElementById(id).addEventListener("change",renderMatrix));
+
+/* ============================ INIT ============================ */
+buildAxisOptions();
+renderAll();
+</script>
+</body>
+</html>

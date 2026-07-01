@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "Si vous utilisez ce travail, merci de le citer comme suit. / If you use this work, please cite it as below."
+title: "HORIZON — Observatoire de prospective stratégique"
+abstract: "Site web autonome et bilingue (FR/EN) consacré à la prospective stratégique : épistémologie de l'incertitude, méthodes, mégatendances par horizon et matrice de scénarios."
+type: software
+authors:
+  - name: "Assistance Multi IA"
+    city: "Genève"
+    country: "CH"
+    email: "Assistant-Multi-AI@proton.me"
+date-released: "2026-06-24"
+version: "1.0.0"
+license: MIT
+keywords:
+  - prospective
+  - foresight
+  - futures studies
+  - scénarios
+  - épistémologie
+url: "https://github.com/christophejlegros-lgtm/horizon"
